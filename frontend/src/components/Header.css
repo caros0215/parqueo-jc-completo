@@ -1,0 +1,10 @@
+
+.main-header.sidebar-open .main-sidebar {
+    /* estilos para mostrar la barra lateral */
+    display: block;
+  }
+  
+  .main-sidebar {
+    /* estilos para ocultar la barra lateral por defecto */
+    display: none;
+  }
