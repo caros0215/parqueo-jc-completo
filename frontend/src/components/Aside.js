@@ -1,105 +1,172 @@
-import React from 'react';
-import 'boxicons/css/boxicons.min.css';
-import './Aside.css'; // Asegúrate de tener los estilos correspondientes
+import React, { useState, useEffect } from 'react';
+import './Aside.css';
+import profileImage from '../assets/usuarios/admin/191.jpg';
+import logoClosedImage from '../assets/plantilla/logo11.png';
+import logoOpenImage from '../assets/plantilla/logo_final_2.png';
 
-const Nav = () => {
-  // Recuperar y parsear la sesión desde localStorage
+const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSessionValid, setIsSessionValid] = useState(true);
+
   const sesionString = localStorage.getItem("session");
   const sesion = sesionString ? JSON.parse(sesionString) : null;
 
-  if (!sesion || !sesion.user) {
-    console.error("No se encontró la sesión o el usuario en localStorage");
-    return null; // Retorna null si no se encuentra la sesión
+  useEffect(() => {
+    if (!sesion || !sesion.user) {
+      console.error("No se encontró la sesión o el usuario en localStorage");
+      setIsSessionValid(false);
+      return;
+    }
+
+    const arrowElements = document.querySelectorAll(".arrow");
+    arrowElements.forEach(arrow => {
+      arrow.addEventListener("click", (e) => {
+        let arrowParent = e.target.parentElement.parentElement;
+        arrowParent.classList.toggle("showMenu");
+      });
+    });
+
+    const sidebar = document.querySelector(".sidebar");
+    const sidebarBtn = document.querySelector(".bx-menu");
+
+    if (sidebarBtn) {
+      sidebarBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
+      });
+    }
+
+    return () => {
+      arrowElements.forEach(arrow => {
+        arrow.removeEventListener("click", (e) => {
+          let arrowParent = e.target.parentElement.parentElement;
+          arrowParent.classList.toggle("showMenu");
+        });
+      });
+
+      if (sidebarBtn) {
+        sidebarBtn.removeEventListener("click", () => {
+          sidebar.classList.toggle("close");
+        });
+      }
+    };
+  }, [sesion]);
+
+  if (!isSessionValid) {
+    return null;
   }
 
-  console.log('Perfil del usuario:', sesion.user.perfil);
+  const perfil = sesion.user.perfil;
 
-  // Función para renderizar los elementos del menú según el sesion.user.perfil
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   const renderMenuItems = () => {
-    const perfil = sesion.user.perfil;
-
     let menuItems = [];
 
-    // Menú común para "Administrador"
-    if (perfil === "Administrador") {
+    if (perfil === "Administrador" || perfil === "Especial" || perfil === "Vendedor") {
       menuItems.push(
-        <li className="active" key="inicio">
-          <a href="inicio">
-            <i className="fa fa-home"></i>
-            <span>Inicio</span>
-          </a>
-        </li>,
-        <li key="usuarios">
-          <a href="usuarios">
-            <i className="fa fa-user"></i>
-            <span>Usuarios</span>
-          </a>
-        </li>
-      );
-    }
-
-    // Menú común para "Administrador" y "Especial"
-    if (perfil === "Administrador" || perfil === "Especial") {
-      menuItems.push(
-        <li key="categorias">
-          <a href="categorias">
-            <i className="fa fa-money"></i>
-            <span>Tarifas</span>
-          </a>
-        </li>,
-        <li key="productos">
-          <a href="productos">
-            <i className="fa fa-indent"></i>
-            <span>Ingresos</span>
-          </a>
-        </li>,
-        <li key="salidas">
-          <a href="salidas">
-            <i className="fa fa-sign-out"></i>
-            <span>Salidas</span>
-          </a>
-        </li>
-      );
-    }
-
-    // Menú común para "Administrador" y "Vendedor"
-    if (perfil === "Administrador" || perfil === "Vendedor") {
-      menuItems.push(
-        <li key="clientes">
-          <a href="clientes">
-            <i className="fa fa-users"></i>
-            <span>Abonados</span>
-          </a>
-        </li>
-      );
-    }
-
-    // Menú específico para "Administrador" y "Vendedor"
-    if (perfil === "Administrador" || perfil === "Vendedor") {
-      menuItems.push(
-        <li key="cajas">
-          <a href="cajas">
-            <i className="fa fa-cart-plus"></i>
-            <span>Caja</span>
-          </a>
-        </li>,
-        <li key="crear-venta">
-          <a href="crear-venta">
-            <i className="fa fa-usd"></i>
-            <span>Pagos</span>
-          </a>
+        <li key="inicio" title="Inicio">
+          <div className="tooltip-container">
+            <a href="inicio">
+              <i className="bx bx-home"></i>
+              <span className="link_name nombre">Inicio</span>
+            </a>
+            <span className="tooltip">Inicio</span>
+          </div>
         </li>
       );
 
       if (perfil === "Administrador") {
         menuItems.push(
-          <li key="reportes">
-            <a href="reportes">
-              <i className="fa fa-line-chart"></i>
-              <span>Reporte de ventas</span>
-            </a>
+          <li key="usuarios" title="Usuarios">
+            <div className="tooltip-container">
+              <a href="usuarios">
+                <i className="bx bx-user"></i>
+                <span className="link_name nombre">Usuarios</span>
+              </a>
+              <span className="tooltip">Usuarios</span>
+            </div>
           </li>
         );
+      }
+
+      if (perfil === "Administrador" || perfil === "Especial") {
+        menuItems.push(
+          <li key="tarifas" title="Tarifas">
+            <div className="tooltip-container">
+              <a href="categorias">
+                <i className="bx bx-money"></i>
+                <span className="link_name nombre">Tarifas</span>
+              </a>
+              <span className="tooltip">Tarifas</span>
+            </div>
+          </li>,
+          <li key="ingresos" title="Ingresos">
+            <div className="tooltip-container">
+              <a href="productos">
+                <i className="bx bx-trending-up"></i>
+                <span className="link_name nombre">Ingresos</span>
+              </a>
+              <span className="tooltip">Ingresos</span>
+            </div>
+          </li>,
+          <li key="salidas" title="Salidas">
+            <div className="tooltip-container">
+              <a href="salidas">
+                <i className="bx bx-exit"></i>
+                <span className="link_name nombre">Salidas</span>
+              </a>
+              <span className="tooltip">Salidas</span>
+            </div>
+          </li>
+        );
+      }
+
+      if (perfil === "Administrador" || perfil === "Vendedor") {
+        menuItems.push(
+          <li key="abonados" title="Abonados">
+            <div className="tooltip-container">
+              <a href="clientes">
+                <i className="bx bx-group"></i>
+                <span className="link_name nombre">Abonados</span>
+              </a>
+              <span className="tooltip">Abonados</span>
+            </div>
+          </li>,
+          <li key="caja" title="Caja">
+            <div className="tooltip-container">
+              <a href="cajas">
+                <i className="bx bx-cart"></i>
+                <span className="link_name nombre">Caja</span>
+              </a>
+              <span className="tooltip">Caja</span>
+            </div>
+          </li>,
+          <li key="pagos" title="Pagos">
+            <div className="tooltip-container">
+              <a href="crear-venta">
+                <i className="bx bx-dollar"></i>
+                <span className="link_name nombre">Pagos</span>
+              </a>
+              <span className="tooltip">Pagos</span>
+            </div>
+          </li>
+        );
+
+        if (perfil === "Administrador") {
+          menuItems.push(
+            <li key="reportes" title="Reporte ventas">
+              <div className="tooltip-container">
+                <a href="reportes">
+                  <i className="bx bx-line-chart"></i>
+                  <span className="link_name nombre">Reporte ventas</span>
+                </a>
+                <span className="tooltip">Reporte ventas</span>
+              </div>
+            </li>
+          );
+        }
       }
     }
 
@@ -107,81 +174,37 @@ const Nav = () => {
   };
 
   return (
-    <div className="nav" id="navbar">
-      <nav className="nav__container">
-        <div>
-          <a href="#" className="nav__link nav__logo">
-            <i className="bx bxs-disc nav__icon"></i>
-            <span className="nav__logo-name">Codigo369</span>
-          </a>
-          <div className="nav__list">
-            <div className="nav__items">
-              <h3 className="nav__subtitle">Profile</h3>
-              <a href="#" className="nav__link active">
-                <i className="bx bx-home nav__icon"></i>
-                <span className="nav__name">Home</span>
-              </a>
-              <div className="nav__dropdown">
-                <a href="#" className="nav__link">
-                  <i className="bx bx-user nav__icon"></i>
-                  <span className="nav__name">Profile</span>
-                  <i className="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
-                </a>
-                <div className="nav__dropdown-collapse">
-                  <div className="nav__dropdown-content">
-                    <a href="#" className="nav__dropdown-item">Passwords</a>
-                    <a href="#" className="nav__dropdown-item">Mail</a>
-                    <a href="#" className="nav__dropdown-item">Accounts</a>
-                  </div>
-                </div>
-              </div>
-              <a href="#" className="nav__link">
-                <i className="bx bx-message-rounded nav__icon"></i>
-                <span className="nav__name">Messages</span>
-              </a>
+    <>
+      <div className={`sidebar ${isOpen ? 'open' : 'close'}`}>
+        <div className="logo-details">
+          <img
+            src={isOpen ? logoOpenImage : logoClosedImage}
+            alt="Logo"
+            className={`sidebar-logo ${isOpen ? 'logo-open' : 'logo-closed'}`}
+          />
+        </div>
+        <ul className="nav-links">
+          {renderMenuItems()}
+        </ul>
+      </div>
+      <section className="home-section">
+        <div className={`profile-item ${!isOpen ? 'sidebar-close' : ''}`}>
+          <div className="home-content">
+            <i className='bx bx-menu' onClick={toggleSidebar}></i>
+          </div>
+          <div className="profile-details">
+            <div className="profile-content">
+              <img src={profileImage} alt="profileImg" />
             </div>
-            <div className="nav__items">
-              <h3 className="nav__subtitle">Menu</h3>
-              <div className="nav__dropdown">
-                <a href="#" className="nav__link">
-                  <i className="bx bx-bell nav__icon"></i>
-                  <span className="nav__name">Notifications</span>
-                  <i className="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
-                </a>
-                <div className="nav__dropdown-collapse">
-                  <div className="nav__dropdown-content">
-                    <a href="#" className="nav__dropdown-item">Blocked</a>
-                    <a href="#" className="nav__dropdown-item">Silenced</a>
-                    <a href="#" className="nav__dropdown-item">Publish</a>
-                  </div>
-                </div>
-              </div>
-              <a href="#" className="nav__link">
-                <i className="bx bx-compass nav__icon"></i>
-                <span className="nav__name">Explore</span>
-              </a>
-              <a href="#" className="nav__link">
-                <i className="bx bx-bookmark nav__icon"></i>
-                <span className="nav__name">Saved</span>
-              </a>
+            <div className="name-job">
+              <div className="profile_name">{sesion.user.nombre}</div>
             </div>
+            <i className='bx bx-log-out'></i>
           </div>
         </div>
-        <a href="#" className="nav__link nav__logout">
-          <i className="bx bx-log-out nav__icon"></i>
-          <span className="nav__name">Log Out</span>
-        </a>
-      </nav>
-      <aside className="main-sidebar" style={{ position: 'absolute', top: 0, left: 0, width: '232px', paddingTop: '78px', minHeight: '100%', backgroundColor: '#000000', borderRight: '2px solid #e3aa00' }}>
-        <section className="sidebar">
-          <ul className="sidebar-menu">
-            {renderMenuItems()}
-          </ul>
-        </section>
-      </aside>
-    </div>
+      </section>
+    </>
   );
 };
 
-//cambios nuevos
-export default Nav;
+export default Sidebar;

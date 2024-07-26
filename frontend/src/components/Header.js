@@ -1,20 +1,18 @@
-// src/components/Header.js
 import React from 'react';
-import 'boxicons/css/boxicons.min.css';
-import './Header.css'; // Asegúrate de tener los estilos correspondientes
+import './Header.css';
 
-const Header = () => {
+const Header = ({ sesion }) => {
   return (
-    <header className="header">
-      <div className="header__container">
-        <img src="./assets/img/avatar.jpg" className="header__img" alt="Avatar" />
-        <div className="header__search">
-          <input type="search" placeholder="Buscar..." className="header__input" />
-          <i className="bx bx-search"></i>
+    <header className="main-header">
+      <div className="profile-details">
+        <div className="profile-content">
+          <img src="image/profile.jpg" alt="profileImg" />
         </div>
-        <div className="header__toggle">
-          <i className="bx bx-menu" id="header-toggle"></i>
+        <div className="name-job">
+          <div className="profile_name">{sesion.user.nombre}</div>
+          <div className="job">{sesion.user.perfil}</div>
         </div>
+        <i className='bx bx-log-out'></i>
       </div>
     </header>
   );
