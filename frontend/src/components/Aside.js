@@ -18,37 +18,20 @@ const Sidebar = () => {
       return;
     }
 
-    const arrowElements = document.querySelectorAll(".arrow");
-    arrowElements.forEach(arrow => {
-      arrow.addEventListener("click", (e) => {
-        let arrowParent = e.target.parentElement.parentElement;
-        arrowParent.classList.toggle("showMenu");
-      });
-    });
-
     const sidebar = document.querySelector(".sidebar");
     const sidebarBtn = document.querySelector(".bx-menu");
 
     if (sidebarBtn) {
-      sidebarBtn.addEventListener("click", () => {
+      const handleSidebarToggle = () => {
         sidebar.classList.toggle("close");
-      });
+      };
+      
+      sidebarBtn.addEventListener("click", handleSidebarToggle);
+
+      return () => {
+        sidebarBtn.removeEventListener("click", handleSidebarToggle);
+      };
     }
-
-    return () => {
-      arrowElements.forEach(arrow => {
-        arrow.removeEventListener("click", (e) => {
-          let arrowParent = e.target.parentElement.parentElement;
-          arrowParent.classList.toggle("showMenu");
-        });
-      });
-
-      if (sidebarBtn) {
-        sidebarBtn.removeEventListener("click", () => {
-          sidebar.classList.toggle("close");
-        });
-      }
-    };
   }, [sesion]);
 
   if (!isSessionValid) {
@@ -62,7 +45,7 @@ const Sidebar = () => {
   };
 
   const renderMenuItems = () => {
-    let menuItems = [];
+    const menuItems = [];
 
     if (perfil === "Administrador" || perfil === "Especial" || perfil === "Vendedor") {
       menuItems.push(
