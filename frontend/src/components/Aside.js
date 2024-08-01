@@ -50,11 +50,11 @@ const Sidebar = () => {
     if (perfil === "Administrador" || perfil === "Especial" || perfil === "Vendedor") {
       menuItems.push(
         <li key="inicio" title="Inicio">
+          <div className="icon-container">
+            <i className="bx bx-home"></i>
+            <span className="link_name">Inicio</span>
+          </div>
           <div className="tooltip-container">
-            <a href="inicio">
-              <i className="bx bx-home"></i>
-              <span className="link_name nombre">Inicio</span>
-            </a>
             <span className="tooltip">Inicio</span>
           </div>
         </li>
@@ -63,11 +63,11 @@ const Sidebar = () => {
       if (perfil === "Administrador") {
         menuItems.push(
           <li key="usuarios" title="Usuarios">
+            <div className="icon-container">
+              <i className="bx bx-user"></i>
+              <span className="link_name">Usuarios</span>
+            </div>
             <div className="tooltip-container">
-              <a href="usuarios">
-                <i className="bx bx-user"></i>
-                <span className="link_name nombre">Usuarios</span>
-              </a>
               <span className="tooltip">Usuarios</span>
             </div>
           </li>
@@ -77,29 +77,29 @@ const Sidebar = () => {
       if (perfil === "Administrador" || perfil === "Especial") {
         menuItems.push(
           <li key="tarifas" title="Tarifas">
+            <div className="icon-container">
+              <i className="bx bx-money"></i>
+              <span className="link_name">Tarifas</span>
+            </div>
             <div className="tooltip-container">
-              <a href="categorias">
-                <i className="bx bx-money"></i>
-                <span className="link_name nombre">Tarifas</span>
-              </a>
               <span className="tooltip">Tarifas</span>
             </div>
           </li>,
           <li key="ingresos" title="Ingresos">
+            <div className="icon-container">
+              <i className="bx bx-trending-up"></i>
+              <span className="link_name">Ingresos</span>
+            </div>
             <div className="tooltip-container">
-              <a href="productos">
-                <i className="bx bx-trending-up"></i>
-                <span className="link_name nombre">Ingresos</span>
-              </a>
               <span className="tooltip">Ingresos</span>
             </div>
           </li>,
           <li key="salidas" title="Salidas">
+            <div className="icon-container">
+              <i className="bx bx-exit"></i>
+              <span className="link_name">Salidas</span>
+            </div>
             <div className="tooltip-container">
-              <a href="salidas">
-                <i className="bx bx-exit"></i>
-                <span className="link_name nombre">Salidas</span>
-              </a>
               <span className="tooltip">Salidas</span>
             </div>
           </li>
@@ -109,29 +109,29 @@ const Sidebar = () => {
       if (perfil === "Administrador" || perfil === "Vendedor") {
         menuItems.push(
           <li key="abonados" title="Abonados">
+            <div className="icon-container">
+              <i className="bx bx-group"></i>
+              <span className="link_name">Abonados</span>
+            </div>
             <div className="tooltip-container">
-              <a href="clientes">
-                <i className="bx bx-group"></i>
-                <span className="link_name nombre">Abonados</span>
-              </a>
               <span className="tooltip">Abonados</span>
             </div>
           </li>,
           <li key="caja" title="Caja">
+            <div className="icon-container">
+              <i className="bx bx-cart"></i>
+              <span className="link_name">Caja</span>
+            </div>
             <div className="tooltip-container">
-              <a href="cajas">
-                <i className="bx bx-cart"></i>
-                <span className="link_name nombre">Caja</span>
-              </a>
               <span className="tooltip">Caja</span>
             </div>
           </li>,
           <li key="pagos" title="Pagos">
+            <div className="icon-container">
+              <i className="bx bx-dollar"></i>
+              <span className="link_name">Pagos</span>
+            </div>
             <div className="tooltip-container">
-              <a href="crear-venta">
-                <i className="bx bx-dollar"></i>
-                <span className="link_name nombre">Pagos</span>
-              </a>
               <span className="tooltip">Pagos</span>
             </div>
           </li>
@@ -140,11 +140,11 @@ const Sidebar = () => {
         if (perfil === "Administrador") {
           menuItems.push(
             <li key="reportes" title="Reporte ventas">
+              <div className="icon-container">
+                <i className="bx bx-line-chart"></i>
+                <span className="link_name">Reporte ventas</span>
+              </div>
               <div className="tooltip-container">
-                <a href="reportes">
-                  <i className="bx bx-line-chart"></i>
-                  <span className="link_name nombre">Reporte ventas</span>
-                </a>
                 <span className="tooltip">Reporte ventas</span>
               </div>
             </li>

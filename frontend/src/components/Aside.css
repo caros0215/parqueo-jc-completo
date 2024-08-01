@@ -32,6 +32,7 @@ body {
   color: #b8c7ce;
   font-family: 'Anton';
 }
+
 .icono {
   color: #e3aa00;
 }
@@ -57,7 +58,6 @@ body {
 
 .sidebar.close .logo-details .sidebar-logo {
   margin-left: 2px;
-  /* padding: 8px; */
   margin-top: 15%;
   display: block;
   max-width: 100%;
@@ -77,11 +77,11 @@ body {
   transition-delay: 0s;
   opacity: 0;
   pointer-events: none;
+  font-size: 12px; /* Reducir el tamaño del nombre cuando el menú está cerrado */
 }
 
 .sidebar .nav-links {
   flex-grow: 1;
-  overflow-y: auto;
 }
 
 .sidebar.close .nav-links {
@@ -96,11 +96,11 @@ body {
   position: relative;
   list-style: none;
   transition: all 0.4s ease;
-  align-items: center; /* Alinea verticalmente los elementos */
+  align-items: center;
 }
 
 .sidebar .nav-links li:hover i {
-  border-left: 4px solid #007bff; /* Azul para el borde izquierdo */
+  border-left: 4px solid #007bff;
 }
 
 .sidebar .nav-links li .iocn-link {
@@ -123,14 +123,18 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-right: 10px;
-  border-left: 4px solid transparent; /* Agrega un borde izquierdo transparente por defecto */
+  border-left: 4px solid transparent;
+}
+
+.sidebar.close .nav-links li i {
+  font-size: 14px; /* Reducir el tamaño del ícono cuando el menú está cerrado */
 }
 
 .sidebar .nav-links li a {
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0; /* Elimina el padding para reducir el espaciado */
+  padding: 0;
   color: #fff;
   font-size: 18px;
   transition: all 0.3s ease;
@@ -219,7 +223,7 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  width: calc(100% - 260px);
+  width: calc(100% - 241px);
   background: #1d1b31;
   padding: 12px 0;
   display: flex;
@@ -230,7 +234,7 @@ body {
 }
 
 .sidebar.close .profile-details {
-  width: calc(100% - 78px);
+  width: calc(100% - 61px);
   background: none;
 }
 
@@ -270,15 +274,15 @@ body {
 
 .home-section {
   position: relative;
-  width: calc(100% - 260px);
-  margin-left: 260px;
+  width: calc(100% - 241px);
+  margin-left: 241px;
   transition: all 0.5s ease;
   padding-top: 60px;
 }
 
 .home-section.sidebar-close {
-  margin-left: 78px;
-  width: calc(100% - 78px);
+  width: calc(100% - 61px);
+  margin-left: 61px;
 }
 
 .home-section .home-content {
@@ -321,7 +325,7 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  width: calc(102% - 260px);
+  width: calc(102% - 241px);
   background: #020202;
   padding: 11.5px 0;
   display: flex;
@@ -331,11 +335,11 @@ body {
   z-index: 10;
   border-bottom: 2px solid #e3aa00;
   padding-left: 1%;
-  z-index: 999; 
+  z-index: 999;
 }
 
 .home-section .profile-item.sidebar-close {
-  width: calc(100% - 78px);
+  width: calc(100% - 61px);
 }
 
 .home-section .profile-details {
@@ -372,34 +376,57 @@ body {
   cursor: pointer;
 }
 
-/* Añade esto al CSS de tus tooltips */
-
+/* Tooltip mejorado */
 .tooltip-container {
-  position: relative; /* Asegura que el tooltip se posicione relativo a su contenedor */
+  position: relative;
 }
 
 .tooltip {
   position: absolute;
-  bottom: 100%; /* Posiciona el tooltip arriba del ícono */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333; /* Color de fondo del tooltip */
-  color: #fff; /* Color del texto del tooltip */
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 12px;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 10px;
+  background-color: rgba(51, 51, 51, 0.9);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
   white-space: nowrap;
-  visibility: hidden; /* Oculta el tooltip por defecto */
+  visibility: hidden;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 1001; /* Asegura que el tooltip esté por encima de otros elementos */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1001;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.tooltip::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent rgba(51, 51, 51, 0.9) transparent transparent;
 }
 
 .sidebar .nav-links li:hover .tooltip {
-  visibility: visible; /* Muestra el tooltip cuando se hace hover */
+  visibility: visible;
   opacity: 1;
+  transform: translateY(-50%) translateX(5px);
+  pointer-events: auto;
 }
 
-.sidebar.close .nav-links li .tooltip {
-  display: none; /* Oculta el tooltip si la barra lateral está cerrada */
+.sidebar.close .nav-links li:hover .tooltip {
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translateY(-50%);
 }
