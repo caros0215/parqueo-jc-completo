@@ -47,6 +47,10 @@ h1 {
   }
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Para pantallas grandes (PCs) */
 @media only screen and (min-width: 992px) {
   h1 {
